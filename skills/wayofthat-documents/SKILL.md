@@ -6,21 +6,21 @@ compatibility: Needs the Way of That MCP server (https://docudetect.com/mcp, OAu
 metadata:
   author: Way of That
   homepage: https://docudetect.com
-  version: "1.2.0"
+  version: "1.3.0"
 ---
 
 # Way of That documents
 
 The Way of That MCP server holds drafts. It cannot send, sign, remind, cancel or delete; the user does those in the app. Every write tool returns either a result or `{ ok: false, refusal: { code, message } }`. A refusal is the answer: relay its message, and change course only the way the message says. The tools that overwrite data (`save_fields`, `set_field_values`, `set_recipient`, `rename_folder`, `move_to_folder`) are marked destructive, so the app asks the user to approve each call; wait for the approval and never look for a way around it.
 
-1. **Connect.** Call `whoami`. If the Way of That tools (`whoami`, `list_documents`, `save_fields` and the rest) are not available, or `whoami` fails with an authorization error, do not improvise with other tools or the website: read [references/connect.md](references/connect.md), give the user the steps for the agent they are using, and stop until they have connected. Note `canWrite` and `limits.maxFieldsPerDocument`; with `canWrite` false, only read.
+1. **Connect.** Call `whoami`. If the Way of That tools (`whoami`, `list_documents`, `save_fields` and the rest) are not available, or `whoami` fails with an authorization error, do not improvise with other tools or the website: read [references/connect.md](references/connect.md), give the user the steps for the agent they are using, and stop until they have connected. Note `canWrite`, `limits.maxFieldsPerDocument` and `limits.detectionMaxPages`; with `canWrite` false, only read.
 2. **Find or create the document.**
    - Existing: `list_documents` (filter by `folderId`, `status` or `query`), then `get_document`.
    - Another copy of a document the user already has (a master form, a template): `duplicate_document`, not a second upload. See the packet workflow below.
-   - New PDF: `start_upload` with the title, filename and exact byte size (and the folder the user named, if any). Tell the user once that the source PDF is stored permanently. If you can run shell commands and read the file, PUT it with the returned `curl` command; otherwise give the user `uploadPageUrl` (they open it signed in to Way of That and drop the PDF) and wait until they say it is uploaded. Both links expire after 30 minutes. Then `finish_upload`.
+   - New PDF: `start_upload` with the title, filename and exact byte size (and the folder the user named, if any). Tell the user once that the source PDF is stored permanently. If you can run shell commands and read the file, PUT it with the returned `curl` command; otherwise give the user `uploadPageUrl` (they open it signed in to Way of That and drop the PDF) and wait until they say it is uploaded. Both links expire after `limits.uploadLinkMinutes` minutes and take one file. Then `finish_upload`.
 3. **Fields.** Positions are fractions of the page from the top-left.
    - Look first: `render_preview` each page that matters and show the images to the user.
-   - Suggestions (field detection by DocuDetect): `detect_fields`, then poll `get_detection` every few seconds until `status` is `done` or `failed`. Its `fields` are suggestions and are not saved; read its `losses`. Detection covers the first 25 pages.
+   - Suggestions (field detection by DocuDetect): `detect_fields`, then poll `get_detection` every few seconds until `status` is `done` or `failed`. Its `fields` are suggestions and are not saved; read its `losses`. Detection covers the first `limits.detectionMaxPages` pages (25 today).
    - Agree before saving: list the fields you will save (page, type, label), with the previews beside them, and save only on the user's go-ahead. `save_fields` takes the whole list and the `revision` from your last read; on `stale_revision`, read again and redo the change on the new revision.
    - Prove it: after every save, `render_preview` each changed page from the new revision and show it. A change is done once its page was re-rendered and the user saw it.
 4. **Values.** `set_field_values` fills fields that already exist, by field id: `documentId`, the `revision` from your last read, and `values: [{ fieldId, value }]`. Text takes a string, checkbox true or false, date `YYYY-MM-DD`; `null` clears. It changes only values, never positions, so use it, not `save_fields`, to fill a document whose placements the user has adjusted. It is all or nothing: an unknown id, an invalid value or a stale revision saves nothing. It refuses signature fields. Filled values are locked for the signer and printed on the document, so fill only facts the user gave you or the document owner knows, then `get_document` and show the user what was filled.
