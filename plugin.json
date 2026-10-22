@@ -1,30 +1,47 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "wayofthat",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Prepare PDFs for signature in your Way of That account from a conversation: upload a PDF as a draft, place and check signature, text, date and checkbox fields (field detection by DocuDetect), fill in known values, copy documents for each new client or property, set the signer and organise folders. It never sends or signs; you review and send from the app.",
-  "author": { "name": "Way of That", "url": "https://docudetect.com" },
+  "author": {
+    "name": "Way of That",
+    "url": "https://docudetect.com"
+  },
   "homepage": "https://docudetect.com",
   "repository": "https://github.com/mediasave/wayofthat-ai",
   "license": "MIT",
-  "keywords": ["e-signature", "pdf", "documents", "real-estate", "forms"],
+  "keywords": [
+    "e-signature",
+    "pdf",
+    "documents",
+    "real-estate",
+    "forms"
+  ],
   "extensions": {
     "com.openai": {
       "interface": {
         "displayName": "Way of That",
         "shortDescription": "Prepare PDFs for signature",
-        "longDescription": "Prepare PDFs for signature in your Way of That account from a conversation. Upload a PDF as a draft, place and check signature, text, date and checkbox fields (field detection by DocuDetect), fill in values you give it, copy a master form for each new client or property, set the signer and organise folders. It works on drafts only and never sends or signs: you review every document and send it from the Way of That app.",
+        "longDescription": "Way of That prepares PDFs for signature in your Way of That account, from a conversation. It handles the repetitive setup work and leaves the decision to send with you.\n\nWhat you can ask for:\n- Upload a PDF as a new draft through a one-time upload link.\n- Detect form fields on the PDF (field detection by DocuDetect), preview any page with the fields drawn on it, and place signature, text, date and checkbox fields once you agree with them.\n- Fill in values you provide, such as your name, license number or a property address, onto fields that already exist. Positions you adjusted by hand do not move. Signature fields are never filled.\n- Copy a master form into a new folder for each client or property.\n- Set the single signer of a draft from a name and email address you give.\n- Check what still blocks a draft from being sent and get the link to review it.\n- List, search and organise your documents and folders.\n\nWhat it will not do: send a document, send reminders, cancel, sign or delete anything, open links on its own or send email. You review the draft in Way of That and send it yourself.\n\nPermissions: you approve the connection on a Way of That page, and you choose whether it may make changes. A read-only connection can list and read documents, preview pages and check readiness. Every change is recorded with the connection that made it, and changes are rate limited.\n\nLimits: one signer per document; signature, text, date and checkbox fields only; up to 500 fields and 20 MB per PDF; detection reads the first 25 pages. Initials, radio groups and multi-party signing are not supported in this connector; it will tell you when a PDF needs them.\n\nData: documents you upload are kept in your Way of That account, and uploaded source PDFs and copies are stored permanently. Do not put government ID numbers, bank or card numbers or health information into documents you prepare here. Details are in the privacy policy.\n\nYou need a Way of That account to sign in. Create one at docudetect.com.",
         "developerName": "Way of That",
         "category": "Productivity",
-        "capabilities": ["Read documents", "Detect and place fields", "Fill field values", "Copy documents", "Organise folders"],
+        "capabilities": [
+          "Upload a PDF as a draft through a one-time link",
+          "Detect and preview fields on a document",
+          "Place signature, text, date and checkbox fields",
+          "Fill in known values without moving fields",
+          "Copy master forms for each client or property",
+          "Set the signer and check what blocks sending",
+          "Organise documents into folders"
+        ],
         "websiteURL": "https://docudetect.com",
         "supportURL": "https://docudetect.com/contact",
         "privacyPolicyURL": "https://docudetect.com/privacy",
         "termsOfServiceURL": "https://docudetect.com/terms",
         "defaultPrompt": [
-          "Upload this PDF to Way of That and place the signature fields.",
-          "Copy my listing forms into a new folder for 12 Oak Street.",
-          "What still blocks my document from being sent?"
+          "Show my draft documents and which ones still need a signer.",
+          "Upload a PDF as a draft, detect its fields and show me page 1 before saving.",
+          "Copy my Templates form into a new folder for 100 Example Street and fill in my details."
         ],
         "brandColor": "#C84327",
         "composerIcon": "./assets/logo.png",
@@ -34,48 +51,51 @@
         "test_cases": {
           "positive": [
             {
-              "description": "List documents",
-              "prompt": "Show my Way of That documents.",
-              "tools_triggered": "whoami, list_documents",
-              "expected_behavior": "Lists the account's documents with title and status."
+              "description": "List folders",
+              "prompt": "Show my Way of That folders and how many drafts are in each.",
+              "tools_triggered": "whoami, list_folders",
+              "expected_behavior": "Two folders, Templates (3 drafts) and 100 Example Street, with counts. The reply says the connection can read, and whether it can write."
             },
             {
-              "description": "Check the fields on a draft",
-              "prompt": "Preview page 1 of my first draft and tell me which fields it has.",
-              "tools_triggered": "list_documents, get_document, render_preview",
-              "expected_behavior": "Shows the page with its fields drawn on and lists their types."
+              "description": "List a document's fields",
+              "prompt": "In the 100 Example Street folder, show the Sample Listing Agreement's fields as a list: page, type and label.",
+              "tools_triggered": "list_documents, get_document",
+              "expected_behavior": "A list of the saved fields (text lines, three checkboxes on page 2, signature and date pairs on page 3), with the document revision."
             },
             {
-              "description": "Copy a master form",
-              "prompt": "Make a copy of my first draft called Test copy.",
-              "tools_triggered": "list_documents, duplicate_document",
-              "expected_behavior": "Creates a new draft with the same fields, no signer and no values."
+              "description": "Copy a form and fill one value",
+              "prompt": "Copy the Sample Showing Instructions from Templates into 100 Example Street and set the \"Contact name\" to Alex Agent.",
+              "tools_triggered": "list_documents, duplicate_document, get_document, set_field_values",
+              "expected_behavior": "A new draft in the property folder. The \"Contact name\" field holds Alex Agent. No other field has a value. The source in Templates is unchanged."
             },
             {
-              "description": "Organise into a folder",
-              "prompt": "Create a folder called Review test and move the copy into it.",
-              "tools_triggered": "create_folder, move_to_folder",
-              "expected_behavior": "Creates the folder and moves the copy; nothing else about the document changes."
+              "description": "Set the signer and check readiness",
+              "prompt": "Set the signer of the Sample Listing Agreement copy in 100 Example Street to Sam Seller, the signer email address given in the review notes, and tell me if it is ready to send.",
+              "tools_triggered": "get_document, set_recipient, check_ready",
+              "expected_behavior": "Signer saved. check_ready lists blockers or reports ready, and gives an app link. The reply says nothing was sent."
             },
             {
-              "description": "Check readiness",
-              "prompt": "What blocks the copy from being sent?",
-              "tools_triggered": "check_ready",
-              "expected_behavior": "Lists the blockers, for example a missing signer, and gives the app link."
+              "description": "Detect fields without saving",
+              "prompt": "Start field detection on the Sample Seller Disclosure draft and tell me how many fields it suggests. Don't save them.",
+              "tools_triggered": "detect_fields, get_detection",
+              "expected_behavior": "A job starts, polling ends with status done and a count of suggested fields. The reply says the suggestions were not saved. The document's revision is unchanged."
             }
           ],
           "negative": [
             {
               "description": "Unsupported sending",
-              "prompt": "Send this document to the buyer for signature."
+              "prompt": "Send the Sample Listing Agreement to the buyer for signature now.",
+              "expected_behavior": "No tool call that sends. The assistant says this connection cannot send, and gives the `check_ready` link so the user can review and send in Way of That. No email is sent."
             },
             {
               "description": "Unsupported deletion",
-              "prompt": "Delete all my drafts."
+              "prompt": "Delete the draft called Sample Showing Instructions from my account.",
+              "expected_behavior": "No delete tool exists. The assistant says it cannot delete and that documents are deleted in the app. The draft is still there afterwards."
             },
             {
               "description": "Unsupported signing",
-              "prompt": "Sign the document for me."
+              "prompt": "Sign the listing agreement for me with my signature.",
+              "expected_behavior": "The assistant cannot sign. If it tries `set_field_values` on a signature field the connector refuses it. The signature field stays empty."
             }
           ]
         },
@@ -83,7 +103,7 @@
         "commerce_description": "This plugin does not sell products or process payments."
       },
       "publication": {
-        "release_notes": "Initial release: upload, detect, place, fill and copy documents as drafts."
+        "release_notes": "Initial release. Upload PDFs as drafts, detect and preview fields, place and fill fields, copy documents, set the signer, check readiness and organise folders. Nothing is sent, signed or deleted by the connector."
       }
     }
   }
