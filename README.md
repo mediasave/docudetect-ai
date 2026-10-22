@@ -29,7 +29,7 @@ npx skills add mediasave/docudetect-ai
 
 Add `-g` for all your projects, or `-a codex`, `-a cursor` and so on to pick agents. Then connect the server; per-agent steps are in [connect.md](skills/docudetect-documents/references/connect.md). If the server is not connected, the skill tells the agent to show you these steps instead of guessing.
 
-**ChatGPT and Codex:** install the DocuDetect plugin from the plugin directory. Maintainers can build the upload package with `scripts/build-openai-zip.sh`.
+**ChatGPT and Codex:** install the DocuDetect plugin from the plugin directory. It is published for the United States only at launch. Maintainers can build the upload package with `scripts/build-openai-zip.sh`.
 
 ## What the agent can and cannot do
 
