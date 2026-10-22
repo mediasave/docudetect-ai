@@ -1,14 +1,14 @@
 {
-  "name": "wayofthat",
-  "displayName": "Way of That",
-  "version": "2.1.1",
-  "description": "Prepare PDFs for signature in your Way of That account from a conversation: upload a PDF as a draft, place and check signature, text, date and checkbox fields (field detection by DocuDetect), fill in known values, copy documents for each new client or property, set the signer and organise folders. It never sends or signs; you review and send from the app.",
+  "name": "docudetect",
+  "displayName": "DocuDetect",
+  "version": "2.2.0",
+  "description": "Prepare PDFs for signature in your DocuDetect account from a conversation: upload a PDF as a draft, place and check signature, text, date and checkbox fields, fill in known values, copy documents for each new client or property, set the signer and organise folders. It never sends or signs; you review and send from the app.",
   "author": {
-    "name": "Way of That",
+    "name": "DocuDetect",
     "url": "https://docudetect.com"
   },
   "homepage": "https://docudetect.com",
-  "repository": "https://github.com/mediasave/wayofthat-ai",
+  "repository": "https://github.com/mediasave/docudetect-ai",
   "license": "MIT",
   "keywords": [
     "e-signature",

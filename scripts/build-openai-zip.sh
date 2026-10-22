@@ -2,7 +2,7 @@
 # Build the ZIP for the OpenAI plugin portal: plugin.json, mcp.json, skills/, assets/ at the archive root.
 set -euo pipefail
 root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-out="${1:-$root/dist/wayofthat-openai.zip}"
+out="${1:-$root/dist/docudetect-openai.zip}"
 mkdir -p "$(dirname "$out")"
 rm -f "$out"
 python3 -I - "$root" "$out" <<'PY'

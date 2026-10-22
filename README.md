@@ -1,35 +1,35 @@
-# Way of That for AI assistants
+# DocuDetect for AI assistants
 
-Plugin and agent skill for [Way of That](https://docudetect.com), the e-signature app. Connect it to Claude, ChatGPT, Codex, Cursor, Gemini CLI or any agent that loads `SKILL.md` skills, and the assistant can prepare PDFs for signature in your Way of That account: upload a PDF as a draft, detect, preview and place signature, text, date and checkbox fields (field detection by DocuDetect), fill in values you give it, copy a master form for each new client or property, set the signer and organise folders. It never sends or signs; you review and send from the app.
+Plugin and agent skill for [DocuDetect](https://docudetect.com), the e-signature app. Connect it to Claude, ChatGPT, Codex, Cursor, Gemini CLI or any agent that loads `SKILL.md` skills, and the assistant can prepare PDFs for signature in your DocuDetect account: upload a PDF as a draft, detect, preview and place signature, text, date and checkbox fields, fill in values you give it, copy a master form for each new client or property, set the signer and organise folders. It never sends or signs; you review and send from the app.
 
 | Skill | What it does |
 |-------|--------------|
-| [`wayofthat-documents`](skills/wayofthat-documents/SKILL.md) | The workflow: connect, find or create a draft, agree and save fields, fill values, hand over for review. |
+| [`docudetect-documents`](skills/docudetect-documents/SKILL.md) | The workflow: connect, find or create a draft, agree and save fields, fill values, hand over for review. |
 
-The skill drives the Way of That MCP server at `https://docudetect.com/mcp`. Sign in with your Way of That account (OAuth in the browser, no API key).
+The skill drives the DocuDetect MCP server at `https://docudetect.com/mcp`. Sign in with your DocuDetect account (OAuth in the browser, no API key). Your documents live at docudetect.com, where the documents app itself is called Way of That.
 
 ## Install
 
 **Claude Code** (plugin: skill and server together)
 
 ```
-/plugin marketplace add mediasave/wayofthat-ai
-/plugin install wayofthat@wayofthat-ai
+/plugin marketplace add mediasave/docudetect-ai
+/plugin install docudetect@docudetect-ai
 ```
 
-In one step on Claude Code 2.1.275 or later: `/plugin install wayofthat --marketplace mediasave/wayofthat-ai`. Then run `/mcp` and sign in.
+In one step on Claude Code 2.1.275 or later: `/plugin install docudetect --marketplace mediasave/docudetect-ai`. Then run `/mcp` and sign in.
 
 **Claude.ai and Claude Desktop:** add the connector at Settings > Connectors > Add custom connector, URL `https://docudetect.com/mcp`, or install the plugin from the Claude directory.
 
 **Any agent with skills** (Claude Code, Codex, Cursor, Gemini CLI, GitHub Copilot, OpenCode and others)
 
 ```bash
-npx skills add mediasave/wayofthat-ai
+npx skills add mediasave/docudetect-ai
 ```
 
-Add `-g` for all your projects, or `-a codex`, `-a cursor` and so on to pick agents. Then connect the server; per-agent steps are in [connect.md](skills/wayofthat-documents/references/connect.md). If the server is not connected, the skill tells the agent to show you these steps instead of guessing.
+Add `-g` for all your projects, or `-a codex`, `-a cursor` and so on to pick agents. Then connect the server; per-agent steps are in [connect.md](skills/docudetect-documents/references/connect.md). If the server is not connected, the skill tells the agent to show you these steps instead of guessing.
 
-**ChatGPT and Codex:** install the Way of That plugin from the plugin directory. Maintainers can build the upload package with `scripts/build-openai-zip.sh`.
+**ChatGPT and Codex:** install the DocuDetect plugin from the plugin directory. Maintainers can build the upload package with `scripts/build-openai-zip.sh`.
 
 ## What the agent can and cannot do
 
@@ -40,13 +40,13 @@ Add `-g` for all your projects, or `-a codex`, `-a cursor` and so on to pick age
 
 ## Data
 
-The package is instructions and configuration only; it stores nothing and runs no code. Through the MCP server, your assistant sends document titles, field positions and values, signer names and emails, and the PDFs you upload to your Way of That account at docudetect.com. Every change made through the server is recorded in an audit log. See the [privacy policy](https://docudetect.com/privacy) and [terms](https://docudetect.com/terms). Support: [docudetect.com/contact](https://docudetect.com/contact).
+The package is instructions and configuration only; it stores nothing and runs no code. Through the MCP server, your assistant sends document titles, field positions and values, signer names and emails, and the PDFs you upload to your DocuDetect account at docudetect.com. Every change made through the server is recorded in an audit log. See the [privacy policy](https://docudetect.com/privacy) and [terms](https://docudetect.com/terms). Support: [docudetect.com/contact](https://docudetect.com/contact).
 
 ## Layout
 
 | Path | Used by |
 |------|---------|
-| `skills/wayofthat-documents/` | skills.sh, Claude Code, Claude, Codex, ChatGPT |
+| `skills/docudetect-documents/` | skills.sh, Claude Code, Claude, Codex, ChatGPT |
 | `.claude-plugin/plugin.json`, `.mcp.json` | Claude Code and the Claude directory |
 | `.claude-plugin/marketplace.json` | `/plugin marketplace add` (this repo is its own marketplace) |
 | `plugin.json`, `mcp.json`, `assets/` | ChatGPT and Codex plugin directory |

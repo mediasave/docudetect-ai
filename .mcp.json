@@ -1,6 +1,6 @@
 {
   "mcpServers": {
-    "wayofthat": {
+    "docudetect": {
       "type": "http",
       "url": "https://docudetect.com/mcp"
     }
