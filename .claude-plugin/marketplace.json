@@ -1,0 +1,12 @@
+{
+  "name": "wayofthat-ai",
+  "owner": { "name": "Way of That", "url": "https://docudetect.com" },
+  "metadata": { "description": "Way of That plugins for Claude Code and Claude." },
+  "plugins": [
+    {
+      "name": "wayofthat",
+      "source": "./",
+      "description": "Prepare PDFs for signature in your Way of That account: upload, detect and place fields, fill values, copy forms for each property, organise folders. It never sends or signs."
+    }
+  ]
+}

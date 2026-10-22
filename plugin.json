@@ -1,0 +1,90 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "wayofthat",
+  "version": "2.0.0",
+  "description": "Prepare PDFs for signature in your Way of That account from a conversation: upload a PDF as a draft, place and check signature, text, date and checkbox fields (field detection by DocuDetect), fill in known values, copy documents for each new client or property, set the signer and organise folders. It never sends or signs; you review and send from the app.",
+  "author": { "name": "Way of That", "url": "https://docudetect.com" },
+  "homepage": "https://docudetect.com",
+  "repository": "https://github.com/mediasave/wayofthat-ai",
+  "license": "MIT",
+  "keywords": ["e-signature", "pdf", "documents", "real-estate", "forms"],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Way of That",
+        "shortDescription": "Prepare PDFs for signature",
+        "longDescription": "Prepare PDFs for signature in your Way of That account from a conversation. Upload a PDF as a draft, place and check signature, text, date and checkbox fields (field detection by DocuDetect), fill in values you give it, copy a master form for each new client or property, set the signer and organise folders. It works on drafts only and never sends or signs: you review every document and send it from the Way of That app.",
+        "developerName": "Way of That",
+        "category": "Productivity",
+        "capabilities": ["Read documents", "Detect and place fields", "Fill field values", "Copy documents", "Organise folders"],
+        "websiteURL": "https://docudetect.com",
+        "supportURL": "https://docudetect.com/contact",
+        "privacyPolicyURL": "https://docudetect.com/privacy",
+        "termsOfServiceURL": "https://docudetect.com/terms",
+        "defaultPrompt": [
+          "Upload this PDF to Way of That and place the signature fields.",
+          "Copy my listing forms into a new folder for 12 Oak Street.",
+          "What still blocks my document from being sent?"
+        ],
+        "brandColor": "#C84327",
+        "composerIcon": "./assets/logo.png",
+        "logo": "./assets/logo.png"
+      },
+      "review": {
+        "test_cases": {
+          "positive": [
+            {
+              "description": "List documents",
+              "prompt": "Show my Way of That documents.",
+              "tools_triggered": "whoami, list_documents",
+              "expected_behavior": "Lists the account's documents with title and status."
+            },
+            {
+              "description": "Check the fields on a draft",
+              "prompt": "Preview page 1 of my first draft and tell me which fields it has.",
+              "tools_triggered": "list_documents, get_document, render_preview",
+              "expected_behavior": "Shows the page with its fields drawn on and lists their types."
+            },
+            {
+              "description": "Copy a master form",
+              "prompt": "Make a copy of my first draft called Test copy.",
+              "tools_triggered": "list_documents, duplicate_document",
+              "expected_behavior": "Creates a new draft with the same fields, no signer and no values."
+            },
+            {
+              "description": "Organise into a folder",
+              "prompt": "Create a folder called Review test and move the copy into it.",
+              "tools_triggered": "create_folder, move_to_folder",
+              "expected_behavior": "Creates the folder and moves the copy; nothing else about the document changes."
+            },
+            {
+              "description": "Check readiness",
+              "prompt": "What blocks the copy from being sent?",
+              "tools_triggered": "check_ready",
+              "expected_behavior": "Lists the blockers, for example a missing signer, and gives the app link."
+            }
+          ],
+          "negative": [
+            {
+              "description": "Unsupported sending",
+              "prompt": "Send this document to the buyer for signature."
+            },
+            {
+              "description": "Unsupported deletion",
+              "prompt": "Delete all my drafts."
+            },
+            {
+              "description": "Unsupported signing",
+              "prompt": "Sign the document for me."
+            }
+          ]
+        },
+        "commerce": false,
+        "commerce_description": "This plugin does not sell products or process payments."
+      },
+      "publication": {
+        "release_notes": "Initial release: upload, detect, place, fill and copy documents as drafts."
+      }
+    }
+  }
+}
