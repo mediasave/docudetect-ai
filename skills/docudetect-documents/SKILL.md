@@ -4,9 +4,9 @@ description: Prepare PDFs for e-signature in a DocuDetect account through the Do
 license: MIT
 compatibility: Needs the DocuDetect MCP server (https://docudetect.com/mcp, OAuth sign-in to a DocuDetect account) connected in the agent, and network access.
 metadata:
-  author: DocuDetect
+  author: Media Save LLC
   homepage: https://docudetect.com
-  version: "1.4.0"
+  version: "1.4.1"
 ---
 
 # DocuDetect documents

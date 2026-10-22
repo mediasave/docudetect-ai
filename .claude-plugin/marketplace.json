@@ -1,6 +1,6 @@
 {
   "name": "docudetect-ai",
-  "owner": { "name": "DocuDetect", "url": "https://docudetect.com" },
+  "owner": { "name": "Media Save LLC", "url": "https://docudetect.com" },
   "metadata": { "description": "DocuDetect plugins for Claude Code and Claude." },
   "plugins": [
     {

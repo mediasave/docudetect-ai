@@ -1,10 +1,10 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "docudetect",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "description": "Prepare PDFs for signature in your DocuDetect account from a conversation: upload a PDF as a draft, place and check signature, text, date and checkbox fields, fill in known values, copy documents for each new client or property, set the signer and organise folders. It never sends or signs; you review and send from the app.",
   "author": {
-    "name": "DocuDetect",
+    "name": "Media Save LLC",
     "url": "https://docudetect.com"
   },
   "homepage": "https://docudetect.com",
@@ -23,7 +23,7 @@
         "displayName": "DocuDetect",
         "shortDescription": "Prepare PDFs for signature",
         "longDescription": "DocuDetect prepares PDFs for signature in your DocuDetect account from a conversation. It handles the repetitive setup work and leaves the decision to send with you.\n\nWhat you can ask for:\n- Upload a PDF as a new draft through a one-time upload link.\n- Detect form fields on the PDF, preview any page with the fields drawn on it, and place signature, text, date and checkbox fields once you agree with them.\n- Fill in values you provide, such as your name, license number or a property address, onto fields that already exist. Positions you adjusted by hand do not move. Signature fields are never filled.\n- Copy a master form into a new folder for each client or property.\n- Set the single signer of a draft from a name and email address you give.\n- Check what still blocks a draft from being sent and get the link to review it.\n- List, search and organise your documents and folders.\n\nWhat it will not do: send a document, send reminders, cancel, sign or delete anything, open links on its own or send email. You review the draft in DocuDetect and send it yourself.\n\nPermissions: you approve the connection on a DocuDetect page, and you choose whether it may make changes. A read-only connection can list and read documents, preview pages and check readiness. Every change is recorded with the connection that made it, and changes are rate limited.\n\nLimits: one signer per document; signature, text, date and checkbox fields only; up to 500 fields and 20 MB per PDF; detection reads the first 25 pages. Initials, radio groups and multi-party signing are not supported in this connector; it will tell you when a PDF needs them.\n\nData: documents you upload are kept in your DocuDetect account, and uploaded source PDFs and copies are stored permanently. Do not put government ID numbers, bank or card numbers or health information into documents you prepare here. Details are in the privacy policy.\n\nYou need a DocuDetect account to sign in. Create one at docudetect.com.",
-        "developerName": "DocuDetect",
+        "developerName": "Media Save LLC",
         "category": "Productivity",
         "capabilities": [
           "Upload a PDF as a draft through a one-time link",
