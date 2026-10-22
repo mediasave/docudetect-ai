@@ -1,10 +1,11 @@
 {
   "name": "docudetect",
   "displayName": "DocuDetect",
-  "version": "2.2.2",
+  "version": "2.2.3",
   "description": "Prepare PDFs for signature in your DocuDetect account from a conversation: upload a PDF as a draft, place and check signature, text, date and checkbox fields, fill in known values, copy documents for each new client or property, set the signer and organise folders. It never sends or signs; you review and send from the app.",
   "author": {
     "name": "Media Save LLC",
+    "email": "contact@docudetect.com",
     "url": "https://docudetect.com"
   },
   "homepage": "https://docudetect.com",
@@ -17,7 +18,7 @@
     "real-estate",
     "forms"
   ],
-  "documentationUrl": "https://docudetect.com/claude",
+  "documentationUrl": "https://docudetect.com/claude/troubleshooting",
   "privacyPolicyUrl": "https://docudetect.com/privacy",
   "termsOfServiceUrl": "https://docudetect.com/terms",
   "supportUrl": "https://docudetect.com/contact"
