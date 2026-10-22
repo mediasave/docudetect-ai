@@ -40,7 +40,7 @@ Add `-g` for all your projects, or `-a codex`, `-a cursor` and so on to pick age
 
 ## Data
 
-The package is instructions and configuration only; it stores nothing and runs no code. Through the MCP server, your assistant sends document titles, field positions and values, signer names and emails, and the PDFs you upload to your Way of That account at docudetect.com. Every change made through the server is recorded with the connecting app's client id. See the [privacy policy](https://docudetect.com/privacy) and [terms](https://docudetect.com/terms). Support: [docudetect.com/contact](https://docudetect.com/contact).
+The package is instructions and configuration only; it stores nothing and runs no code. Through the MCP server, your assistant sends document titles, field positions and values, signer names and emails, and the PDFs you upload to your Way of That account at docudetect.com. Every change made through the server is recorded in an audit log. See the [privacy policy](https://docudetect.com/privacy) and [terms](https://docudetect.com/terms). Support: [docudetect.com/contact](https://docudetect.com/contact).
 
 ## Layout
 

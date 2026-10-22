@@ -89,6 +89,6 @@ Any MCP client that supports remote Streamable HTTP servers with OAuth works if 
 
 ## When sign-in fails
 
-- "Invalid redirect URI" or similar: the client uses a hosted or custom-scheme callback (for example a web-based agent), which Way of That does not accept yet. Use one of the desktop or CLI agents above.
+- "Invalid redirect URI" or similar: the client uses a hosted or custom-scheme callback other than the ones Way of That accepts (Claude, ChatGPT and local `http://localhost` or `http://127.0.0.1` callbacks). Use one of the agents above.
 - Tools still missing after sign-in: restart the agent or start a new session.
 - Access tokens last an hour and are refreshed while the connection stays in use. If calls start failing with an authorization error, sign in again from the agent's MCP settings.
