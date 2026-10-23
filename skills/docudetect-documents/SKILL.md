@@ -6,7 +6,7 @@ compatibility: Needs the DocuDetect MCP server (https://docudetect.com/mcp, OAut
 metadata:
   author: Media Save LLC
   homepage: https://docudetect.com
-  version: "1.4.3"
+  version: "1.5.0"
 ---
 
 # DocuDetect documents
@@ -17,7 +17,7 @@ The DocuDetect MCP server holds drafts. It cannot send, sign, remind, cancel or 
 2. **Find or create the document.**
    - Existing: `list_documents` (filter by `folderId`, `status` or `query`), then `get_document`.
    - Another copy of a document the user already has (a master form, a template): `duplicate_document`, not a second upload. See the packet workflow below.
-   - New PDF: `start_upload` with the title, filename and exact byte size (and the folder the user named, if any). Tell the user once that the source PDF is stored permanently. If you can run shell commands and read the file, PUT it with the returned `curl` command; otherwise give the user `uploadPageUrl` (they open it signed in to DocuDetect and drop the PDF) and wait until they say it is uploaded. Both links expire after `limits.uploadLinkMinutes` minutes and take one file. Then `finish_upload`.
+   - New PDF: `start_upload` with the title, filename and exact byte size (and the folder the user named, if any). Tell the user once that the source PDF is stored permanently. If you can run shell commands and read the file, PUT it with the returned `curl` command; otherwise give the user `uploadPageUrl` (they open it signed in to DocuDetect and drop the PDF) and wait until they say it is uploaded. In claude.ai, if the PUT fails because the network blocks docudetect.com, tell the user once that they can let Claude upload attachments directly by allowing docudetect.com under Settings > Capabilities (Code execution and file creation > Allow network egress; on team and enterprise plans an owner sets it under Organization settings > Capabilities), and still give them `uploadPageUrl` now. Both links expire after `limits.uploadLinkMinutes` minutes and take one file. Then `finish_upload`.
 3. **Fields.** Positions are fractions of the page from the top-left.
    - Look first: `render_preview` each page that matters and show the images to the user.
    - Suggestions: `detect_fields`, then poll `get_detection` every few seconds until `status` is `done` or `failed`. Its `fields` are suggestions and are not saved; read its `losses`. Detection covers the first `limits.detectionMaxPages` pages (25 today).
