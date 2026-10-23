@@ -6,7 +6,7 @@ compatibility: Needs the DocuDetect MCP server (https://docudetect.com/mcp, OAut
 metadata:
   author: Media Save LLC
   homepage: https://docudetect.com
-  version: "1.4.2"
+  version: "1.4.3"
 ---
 
 # DocuDetect documents

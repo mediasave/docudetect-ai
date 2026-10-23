@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "docudetect",
-  "version": "2.2.4",
+  "version": "2.2.5",
   "description": "Prepare PDFs for signature in your DocuDetect account from a conversation: upload a PDF as a draft, place and check signature, text, date and checkbox fields, fill in known values, copy documents for each new client or property, set the signer and organise folders. It never sends or signs; you review and send from the app.",
   "author": {
     "name": "Media Save LLC",
