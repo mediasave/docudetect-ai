@@ -19,7 +19,7 @@ The skill drives the DocuDetect MCP server at `https://docudetect.com/mcp`. Sign
 
 In one step on Claude Code 2.1.275 or later: `/plugin install docudetect --marketplace mediasave/docudetect-ai`. Then run `/mcp` and sign in.
 
-**Claude.ai and Claude Desktop:** add the connector at Settings > Connectors > Add custom connector, URL `https://docudetect.com/mcp`, or install the plugin from the Claude directory.
+**Claude.ai and Claude Desktop** (plugin: skill and server together; Pro, Max, Team or Enterprise): Customize > Plugins > Add > **Add marketplace**, enter `mediasave/docudetect-ai` (connect GitHub when asked while the repo is private), install `docudetect`, then open the plugin's **Connectors** tab and connect DocuDetect. Or **Upload plugin** with the ZIP from `scripts/build-claude-zip.sh`. Connector only: Settings > Connectors > Add custom connector, URL `https://docudetect.com/mcp`.
 
 **Any agent with skills** (Claude Code, Codex, Cursor, Gemini CLI, GitHub Copilot, OpenCode and others)
 
