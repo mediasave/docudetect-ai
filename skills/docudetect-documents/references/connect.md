@@ -4,7 +4,7 @@ The skill needs the DocuDetect MCP server connected in the agent. It is a remote
 
 - URL: `https://docudetect.com/mcp`
 - Sign-in: OAuth 2.1 in the browser (dynamic client registration, PKCE). No API key. The user signs in to their DocuDetect account (or creates one at https://docudetect.com) and approves access. The documents app at docudetect.com is called Way of That; it is the same account.
-- Scopes: `documents:read` and `documents:write`. Unticking "Upload PDFs as drafts ..." on the approval page gives a read-only connection.
+- Scopes: `documents:read`, `documents:write` and `documents:send`. On the approval page the user can untick "Upload PDFs as drafts ..." (read-only connection) or "Send documents for signature ..." (the user sends from the app). A connection made before sending existed has no `documents:send`: to send through it, the user disconnects and connects again.
 
 Give the user the steps for the agent they are using, then ask them to come back once it is connected (some agents need a restart or a new session before new tools appear). Never ask the user to paste tokens or passwords into the chat.
 
@@ -19,6 +19,8 @@ Then run `/mcp` in a session, pick `docudetect` and sign in (or `claude mcp logi
 ## Claude.ai and Claude Desktop
 
 Settings > Connectors > Add custom connector, URL `https://docudetect.com/mcp`, then Connect and sign in.
+
+So Claude can upload an attached PDF by itself (optional; without it the user drops the PDF in the upload box Claude shows): open https://claude.ai/settings/capabilities, under "Code execution and file creation" turn on "Allow network egress", and add `docudetect.com` if it asks for allowed domains. On Team and Enterprise plans an owner sets this at https://claude.ai/admin-settings/capabilities.
 
 ## ChatGPT and the Codex app
 

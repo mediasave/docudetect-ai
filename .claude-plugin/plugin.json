@@ -1,8 +1,8 @@
 {
   "name": "docudetect",
   "displayName": "DocuDetect",
-  "version": "2.3.0",
-  "description": "Prepare PDFs for signature in your DocuDetect account from a conversation: upload a PDF as a draft, place and check signature, text, date and checkbox fields, fill in known values, copy documents for each new client or property, set the signer and organise folders. It never sends or signs; you review and send from the app.",
+  "version": "3.0.0",
+  "description": "Prepare, send and track PDFs for signature in your DocuDetect account from a conversation: upload a PDF, place and check signature, text, date and checkbox fields, audit templates for missed fields, fill in known values, copy documents for each new client or property, send to the signer when you say so, see who opened or signed, remind or cancel, and organise folders. It never signs or deletes.",
   "author": {
     "name": "Media Save LLC",
     "email": "contact@docudetect.com",

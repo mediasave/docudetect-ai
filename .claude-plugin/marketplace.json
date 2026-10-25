@@ -6,7 +6,7 @@
     {
       "name": "docudetect",
       "source": "./",
-      "description": "Prepare PDFs for signature in your DocuDetect account: upload, detect and place fields, fill values, copy forms for each property, organise folders. It never sends or signs."
+      "description": "Prepare, send and track PDFs for signature in your DocuDetect account: upload, detect, check and place fields, fill values, copy forms for each property, send, remind and organise folders. It never signs or deletes."
     }
   ]
 }

@@ -1,8 +1,8 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "docudetect",
-  "version": "2.3.0",
-  "description": "Prepare PDFs for signature in your DocuDetect account from a conversation: upload a PDF as a draft, place and check signature, text, date and checkbox fields, fill in known values, copy documents for each new client or property, set the signer and organise folders. It never sends or signs; you review and send from the app.",
+  "version": "3.0.0",
+  "description": "Prepare, send and track PDFs for signature in your DocuDetect account from a conversation: upload a PDF, place and check signature, text, date and checkbox fields, audit templates for missed fields, fill in known values, copy documents for each new client or property, send to the signer when you say so, see who opened or signed, remind or cancel, and organise folders. It never signs or deletes.",
   "author": {
     "name": "Media Save LLC",
     "email": "contact@docudetect.com",
@@ -22,8 +22,8 @@
     "com.openai": {
       "interface": {
         "displayName": "DocuDetect",
-        "shortDescription": "Prepare PDFs for signature",
-        "longDescription": "DocuDetect prepares PDFs for signature in your DocuDetect account from a conversation. It handles the repetitive setup work and leaves the decision to send with you.\n\nWhat you can ask for:\n- Upload a PDF as a new draft through a one-time upload link.\n- Detect form fields on the PDF, preview any page with the fields drawn on it, and place signature, text, date and checkbox fields once you agree with them.\n- Fill in values you provide, such as your name, license number or a property address, onto fields that already exist. Positions you adjusted by hand do not move. Signature fields are never filled.\n- Copy a master form into a new folder for each client or property.\n- Set the single signer of a draft from a name and email address you give.\n- Check what still blocks a draft from being sent and get the link to review it.\n- List, search and organise your documents and folders.\n\nWhat it will not do: send a document, send reminders, cancel, sign or delete anything, open links on its own or send email. You review the draft in DocuDetect and send it yourself.\n\nPermissions: you approve the connection on a DocuDetect page, and you choose whether it may make changes. A read-only connection can list and read documents, preview pages and check readiness. Every change is recorded with the connection that made it, and changes are rate limited.\n\nLimits: one signer per document; signature, text, date and checkbox fields only; up to 500 fields and 20 MB per PDF; detection reads the first 25 pages. Initials, radio groups and multi-party signing are not supported in this connector; it will tell you when a PDF needs them.\n\nData: documents you upload are kept in your DocuDetect account, and uploaded source PDFs and copies are stored permanently. Do not put government ID numbers, bank or card numbers or health information into documents you prepare here. Details are in the privacy policy.\n\nYou need a DocuDetect account to sign in. Create one at docudetect.com.",
+        "shortDescription": "Prepare and send for signature",
+        "longDescription": "DocuDetect prepares, sends and tracks PDFs for signature in your DocuDetect account from a conversation. It handles the repetitive setup work and sends only when you ask it to.\n\nWhat you can ask for:\n- Upload a PDF as a new draft, in the conversation or through a one-time upload link.\n- Detect form fields on the PDF, preview any page with the fields drawn on it, and place signature, text, date and checkbox fields once you agree with them.\n- Fill in values you provide, such as your name, license number or a property address, onto fields that already exist. Positions you adjusted by hand do not move. Signature fields are never filled.\n- Copy a master form into a new folder for each client or property.\n- Set the single signer of a draft from a name and email address you give.\n- Check a template for missed, duplicated or misplaced fields and fix them with you.\n- Check what still blocks a draft, then send it to the signer when you say so.\n- See whether the signer has opened or signed it, send a reminder, a fresh link when one expires, or cancel the request.\n- Email you a completed, signed copy.\n- List, search and organise your documents and folders.\n\nWhat it will not do: sign for anyone, delete anything, open links on its own, or send without your request. Email goes only to the signer you named or to an address you give for a signed copy.\n\nPermissions: you approve the connection on a DocuDetect page, and you choose whether it may make changes and whether it may send. A read-only connection can list and read documents, preview pages and check readiness. Every change is recorded with the connection that made it, and changes are rate limited.\n\nLimits: one signer per document; signature, text, date and checkbox fields only; up to 500 fields and 20 MB per PDF; detection reads the first 25 pages. Initials, radio groups and multi-party signing are not supported in this connector; it will tell you when a PDF needs them.\n\nData: documents you upload are kept in your DocuDetect account, and uploaded source PDFs and copies are stored permanently. Do not put government ID numbers, bank or card numbers or health information into documents you prepare here. Details are in the privacy policy.\n\nYou need a DocuDetect account to sign in. Create one at docudetect.com.",
         "developerName": "Media Save LLC",
         "category": "Productivity",
         "capabilities": [
@@ -32,7 +32,8 @@
           "Place signature, text, date and checkbox fields",
           "Fill in known values without moving fields",
           "Copy master forms for each client or property",
-          "Set the signer and check what blocks sending",
+          "Check templates for missed or misplaced fields",
+          "Send for signature, track, remind and cancel",
           "Organise documents into folders"
         ],
         "websiteURL": "https://docudetect.com",
@@ -76,6 +77,12 @@
               "expected_behavior": "Signer saved. check_ready lists blockers or reports ready, and gives an app link. The reply says nothing was sent."
             },
             {
+              "description": "Send and track",
+              "prompt": "Send the Sample Listing Agreement copy in 100 Example Street to Sam Seller at the signer email address given in the review notes, then tell me if Sam has opened it.",
+              "tools_triggered": "list_documents, get_document, set_recipient, check_ready, send_document, get_document",
+              "expected_behavior": "The assistant shows the title, signer and field count, sends, reports delivery email_sent, and reports the signing state (waiting until the signer opens the link)."
+            },
+            {
               "description": "Detect fields without saving",
               "prompt": "Start field detection on the Sample Seller Disclosure draft and tell me how many fields it suggests. Don't save them.",
               "tools_triggered": "detect_fields, get_detection",
@@ -84,9 +91,9 @@
           ],
           "negative": [
             {
-              "description": "Unsupported sending",
+              "description": "Sending to someone not named",
               "prompt": "Send the Sample Listing Agreement to the buyer for signature now.",
-              "expected_behavior": "No tool call that sends. The assistant says this connection cannot send, and gives the `check_ready` link so the user can review and send in DocuDetect. No email is sent."
+              "expected_behavior": "No send_document call. No buyer name or email was given, so the assistant asks for the signer's name and email and does not guess or take one from the document. No email is sent."
             },
             {
               "description": "Unsupported deletion",
@@ -105,7 +112,7 @@
       },
       "publication": {
         "countries": ["US"],
-        "release_notes": "Initial release. Upload PDFs as drafts, detect and preview fields, place and fill fields, copy documents, set the signer, check readiness and organise folders. Nothing is sent, signed or deleted by the connector."
+        "release_notes": "Upload PDFs as drafts (in-chat upload box), detect, check and preview fields, place and fill fields, copy documents, set the signer, send for signature on request, track, remind, renew, cancel and reopen, email signed copies, and organise folders. Nothing is signed or deleted by the connector."
       }
     }
   }

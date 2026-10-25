@@ -1,6 +1,6 @@
 # DocuDetect for AI assistants
 
-Plugin and agent skill for [DocuDetect](https://docudetect.com), the e-signature app. Connect it to Claude, ChatGPT, Codex, Cursor, Gemini CLI or any agent that loads `SKILL.md` skills, and the assistant can prepare PDFs for signature in your DocuDetect account: upload a PDF as a draft, detect, preview and place signature, text, date and checkbox fields, fill in values you give it, copy a master form for each new client or property, set the signer and organise folders. It never sends or signs; you review and send from the app.
+Plugin and agent skill for [DocuDetect](https://docudetect.com), the e-signature app. Connect it to Claude, ChatGPT, Codex, Cursor, Gemini CLI or any agent that loads `SKILL.md` skills, and the assistant can prepare, send and track PDFs for signature in your DocuDetect account: upload a PDF as a draft, detect, preview, check and place signature, text, date and checkbox fields, fill in values you give it, copy a master form for each new client or property, set the signer, send when you ask, see whether the signer opened or signed, remind or cancel, and organise folders. It never signs or deletes.
 
 | Skill | What it does |
 |-------|--------------|
@@ -33,7 +33,7 @@ Add `-g` for all your projects, or `-a codex`, `-a cursor` and so on to pick age
 
 ## What the agent can and cannot do
 
-- It works on drafts only. It cannot send, sign, remind, void or delete; the MCP server has no tools for those.
+- It sends a document only when you ask, after showing you the signer and the fields. Sending needs the "Send documents" permission on the approval page; untick it and you send from the app. It cannot sign or delete; the MCP server has no tools for those.
 - It shows you the fields it plans to save and saves only when you agree, then re-renders each changed page so you can check it.
 - It sets the signer only from a name and email you gave it, and fills only values you gave it. It never fills signatures, initials, signing dates or another person's statements.
 - Uploaded PDFs and copies are stored permanently in your account.
