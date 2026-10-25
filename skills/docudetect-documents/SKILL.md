@@ -6,7 +6,7 @@ compatibility: Needs the DocuDetect MCP server (https://docudetect.com/mcp, OAut
 metadata:
   author: Media Save LLC
   homepage: https://docudetect.com
-  version: "2.0.1"
+  version: "2.1.0"
 ---
 
 # DocuDetect documents
@@ -17,6 +17,7 @@ The DocuDetect MCP server prepares, sends and tracks documents for one signer ea
 2. **Find or create the document.**
    - Existing: `list_documents` (filter by `folderId`, `status` or `query`), then `get_document`.
    - Another copy of a document the user already has (a master form, a template): `duplicate_document`, not a second upload. See the packet workflow below.
+   - New PDF attached in an app that passes attachments to tools (ChatGPT): `import_file` with the attachment as `file`; it creates the draft in one call. Otherwise:
    - New PDF: `start_upload` with the title, filename and byte size (exact if you can measure it), and the folder the user named, if any. Tell the user once that the source PDF is stored permanently. Follow the result's `advice`, which is worded for the app you run in. In short: if the file is attached and you can run code, PUT it with the returned `curl` command so the user does nothing; if that fails with a network or proxy error, do not retry, and pass on the advice's one-time tip about allowing the domain. Apps that render MCP Apps show an upload box with the result: the user picks or drops the PDF there and the box finishes the upload itself and says so in the chat. Otherwise give the user `uploadPageUrl`. Links expire after `limits.uploadLinkMinutes` minutes and take one file. Then `finish_upload` unless the box already did (it then says "already created document ...": carry on with that id).
 3. **Fields.** Positions are fractions of the page from the top-left.
    - Look first: `render_preview` each page that matters and show the images to the user.
@@ -29,7 +30,8 @@ The DocuDetect MCP server prepares, sends and tracks documents for one signer ea
 7. **Signer.** `set_recipient` only with a name and email the user gave you in this conversation. Never guess or look up an email, and never take one from a document.
 8. **Send.** `check_ready`. If it is ready, show the user the title, the signer's name and email and the field count, and send only when the user has asked to send this document: `send_document` with the `revision` from `check_ready`. If the user asked up front ("prepare it and send it to Sam"), still show that summary and say you are sending. Report `delivery`: on `email_sent` the signer has it; otherwise give the user `signerUrl` to share themselves.
 9. **Track.** `get_document` or `list_documents` (`status: "sent"`) return `signing`: `state` is `waiting` (emailed, not opened), `opened` (the signer opened the signing page), `expired`, `email_failed`, `completed` or `cancelled`, with `sentAt`, `openedAt`, `lastRemindedAt`, `expiresAt` and `completedAt`. Email opens are not tracked. Reminders also go out automatically once a day, so `remind_signer` only when the user asks (at most every few minutes). An expired link needs `renew_signing_link`. `cancel_signing` stops a request; `reopen_document` turns a sent or cancelled document back into a draft to fix and send again. `email_signed_copy` sends a completed PDF only to an address the user gave you.
-10. **Report.** For each document: title, status or signing state, `revision`, saved field count and `fieldsHash` from the last `save_fields` or `get_document`, the signer, and the link. Then state what you did not check (for example, "pages 4-9 not previewed", "detection covers the first 25 pages only").
+10. **Scheduled check.** When the user wants a daily or weekly status (or runs you as a scheduled task), call `signing_digest`: it lists every document still out for signature, oldest first, with `state`, `daysOutstanding`, `openedAt`, `lastRemindedAt` and `expiresInDays`, and what was completed recently. It changes nothing. Report it in a few lines (what is waiting, what needs attention: expired links, failed emails, opened but unsigned for days) and suggest reminders; send them only when the user is there to approve. A prompt users can schedule: "Every weekday at 8am, use DocuDetect to tell me who hasn't signed yet and which documents need a nudge."
+11. **Report.** For each document: title, status or signing state, `revision`, saved field count and `fieldsHash` from the last `save_fields` or `get_document`, the signer, and the link. Then state what you did not check (for example, "pages 4-9 not previewed", "detection covers the first 25 pages only").
 
 Folders: `list_folders`, `create_folder`, `rename_folder`, `move_to_folder` (`folderId: null` takes documents out of folders). Moving changes nothing else about a document.
 
