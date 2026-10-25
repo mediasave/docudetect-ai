@@ -22,6 +22,14 @@ Settings > Connectors > Add custom connector, URL `https://docudetect.com/mcp`, 
 
 So Claude can upload an attached PDF by itself (optional; without it the user drops the PDF in the upload box Claude shows): open https://claude.ai/settings/capabilities, under "Code execution and file creation" turn on "Allow network egress", and add `docudetect.com` if it asks for allowed domains. On Team and Enterprise plans an owner sets this at https://claude.ai/admin-settings/capabilities.
 
+## Perplexity
+
+Customize > Connectors > Add custom > Connector > Add MCP connector > Remote, URL `https://docudetect.com/mcp`, OAuth 2.0, Streamable HTTP, Add, then click the card to sign in. In organizations an admin must allow custom connectors first.
+
+## Grok
+
+grok.com/connectors > New Connector > Custom, URL `https://docudetect.com/mcp`, then sign in. On Grok Business and Enterprise an admin adds it in the xAI console first.
+
 ## ChatGPT and the Codex app
 
 Install the DocuDetect plugin from the plugin directory; it connects the server and asks the user to sign in. Until it is listed, in ChatGPT on the web open Plugins > Add custom MCP server (developer mode, available on some plans), enter `https://docudetect.com/mcp`, choose OAuth and sign in.
