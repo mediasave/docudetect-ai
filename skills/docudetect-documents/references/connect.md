@@ -20,7 +20,7 @@ Then run `/mcp` in a session, pick `docudetect` and sign in (or `claude mcp logi
 
 Settings > Connectors > Add custom connector, URL `https://docudetect.com/mcp`, then Connect and sign in.
 
-So Claude can upload an attached PDF by itself (optional; without it the user drops the PDF in the upload box Claude shows): open https://claude.ai/settings/capabilities, under "Code execution and file creation" turn on "Allow network egress", and add `docudetect.com` if it asks for allowed domains. On Team and Enterprise plans an owner sets this at https://claude.ai/admin-settings/capabilities.
+So Claude can upload an attached PDF by itself (optional; without it the user drops the PDF in the upload box Claude shows): open https://claude.ai/settings/capabilities, under "Code execution and file creation" turn on "Allow network egress", and add `docudetect.com` to its allowed domains. The Free plan has no domain list (package managers only), so there the upload box is the way. On Team and Enterprise plans an owner sets this at https://claude.ai/admin-settings/capabilities.
 
 ## Perplexity
 
