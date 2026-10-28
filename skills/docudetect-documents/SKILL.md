@@ -6,7 +6,7 @@ compatibility: Needs the DocuDetect MCP server (https://docudetect.com/mcp, OAut
 metadata:
   author: Media Save LLC
   homepage: https://docudetect.com
-  version: "2.1.2"
+  version: "2.2.0"
 ---
 
 # DocuDetect documents
@@ -19,6 +19,8 @@ The DocuDetect MCP server prepares, sends and tracks documents for one signer ea
    - Another copy of a document the user already has (a master form, a template): `duplicate_document`, not a second upload. See the packet workflow below.
    - New PDF attached in an app that passes attachments to tools (ChatGPT): `import_file` with the attachment as `file`; it creates the draft in one call. Otherwise:
    - New PDF: `start_upload` with the title, filename and byte size (exact if you can measure it), and the folder the user named, if any. Tell the user once that the source PDF is stored permanently. Follow the result's `advice`, which is worded for the app you run in. In short: if the file is attached and you can run code, PUT it with the returned `curl` command so the user does nothing; if that fails with a network or proxy error, do not retry, and pass on the advice's one-time tip about allowing the domain (only possible where the plan offers an allowed-domains list; on Claude's Free plan the upload box is the way). Apps that render MCP Apps show an upload box with the result: the user picks or drops the PDF there and the box finishes the upload itself and says so in the chat. Otherwise give the user `uploadPageUrl`. Links expire after `limits.uploadLinkMinutes` minutes and take one file. Then `finish_upload` unless the box already did; calling it again is harmless and returns the same draft.
+   - PDFs locked against editing (a form library's "Disable editing" export, which opens without a password) are unlocked automatically when uploaded and stored unlocked; `finish_upload` reports `decrypted: true`. A PDF that needs a password to open is refused: ask the user for an unlocked copy.
+   - A corrected or unlocked file for a draft that already exists (same pages, fields and values kept): `start_upload`, PUT the file with the `curl` command, then `replace_source` with `documentId`, the current `revision` and the `uploadId`, instead of `finish_upload`. Only a draft that has never been sent can change; every page must have the same size and rotation, otherwise the refusal lists what differs. Do not use the in-chat upload box for this, because it creates a new draft by itself. Tell the user once that the new PDF is stored permanently.
 3. **Fields.** Positions are fractions of the page from the top-left.
    - Look first: `render_preview` each page that matters and show the images to the user.
    - Suggestions: `detect_fields`, then poll `get_detection` every few seconds until `status` is `done` or `failed`. Its `fields` are suggestions and are not saved; read its `losses`. Detection covers the first `limits.detectionMaxPages` pages.
