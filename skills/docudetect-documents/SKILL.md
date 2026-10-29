@@ -6,7 +6,7 @@ compatibility: Needs the DocuDetect MCP server (https://docudetect.com/mcp, OAut
 metadata:
   author: Media Save LLC
   homepage: https://docudetect.com
-  version: "2.3.0"
+  version: "2.4.0"
 ---
 
 # DocuDetect documents
@@ -50,3 +50,13 @@ For a property (or client) that needs a set of forms:
 4. Leave blank, and list for the user as gaps: price, commission, listing term and dates, the seller's contact details unless given, and anything you were not told.
 5. Never fill the seller's disclosure answers (seller's property disclosure, latent defects, lead-paint seller section, flood and similar): they are the seller's own statements. Never fill signatures, initials or signing dates. A property-identification header on those forms is fine.
 6. Set the seller as signer only from a name and email the user gave, `check_ready` each form, show the user the packet summary (form, signer, gaps), and send the forms the user approves. Track them together afterwards with `list_documents` on the folder.
+
+## Documents someone asked the user to sign
+
+When the user was invited to sign (the request went to their verified email address), the document belongs to the sender, not to this account. The user may want you to help fill it in; they always sign it themselves.
+
+1. `list_documents_to_sign` shows what is waiting. `get_document_to_sign` lists every field with its label, what the sender already filled (`locked`) and any answer saved so far. Labels can be wrong: `preview_document_to_sign` the pages and match each answer to what the printed form asks beside the field.
+2. Ask the user each question in plain words and use their answers, in their own words where the form asks for a statement (a seller's disclosure is the seller's statement: here the user is that seller). Never guess facts about their property, health, money or circumstances; leave anything they don't know blank or ask how they want to answer.
+3. Save with `fill_document_to_sign` (`id`, `values: [{ fieldId, value }]`; text a string, checkbox true or false, date `YYYY-MM-DD`, `null` clears). It is all or nothing and refuses fields the sender filled and signature fields. Answers are saved for review, not submitted.
+4. Tell the user to open the signing link from their email: the answers appear filled in, they check and change anything, then sign there. You cannot sign, submit or see the link.
+
