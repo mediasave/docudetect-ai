@@ -9,7 +9,7 @@
           "auth": {
             "type": "oauth",
             "client": { "mode": "cimd" },
-            "baseScopes": ["documents:read", "documents:write", "offline_access"]
+            "baseScopes": ["documents:read", "documents:write", "documents:send", "offline_access"]
           }
         }
       }

@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "docudetect",
-  "version": "3.9.0",
+  "version": "3.9.2",
   "description": "Prepare, send and track PDFs for signature in your DocuDetect account from a conversation: upload a PDF, place and check signature, text, date and checkbox fields, audit templates for missed fields, fill in known values, copy documents for each new client or property, send to the signer when you say so, see who opened or signed, remind or cancel, and organise folders. It never signs or deletes.",
   "author": {
     "name": "Media Save LLC",
@@ -23,17 +23,20 @@
       "interface": {
         "displayName": "DocuDetect",
         "shortDescription": "Prepare and send for signature",
-        "longDescription": "DocuDetect prepares, sends and tracks PDFs for signature in your DocuDetect account from a conversation. It handles the repetitive setup work and sends only when you ask it to.\n\nWhat you can ask for:\n- Upload a PDF as a new draft, in the conversation or through a one-time upload link.\n- Detect form fields on the PDF, preview any page with the fields drawn on it, and place signature, text, date and checkbox fields once you agree with them.\n- Fill in values you provide, such as your name, license number or a property address, onto fields that already exist. Positions you adjusted by hand do not move. Signature fields are never filled.\n- Copy a master form into a new folder for each client or property.\n- Set the single signer of a draft from a name and email address you give.\n- Check a template for missed, duplicated or misplaced fields and fix them with you.\n- Check what still blocks a draft, then send it to the signer when you say so.\n- See whether the signer has opened or signed it, send a reminder, a fresh link when one expires, or cancel the request.\n- Email you a completed, signed copy.\n- List, search and organise your documents and folders.\n\nWhat it will not do: sign for anyone, delete anything, open links on its own, or send without your request. Email goes only to the signer you named or to an address you give for a signed copy.\n\nPermissions: you approve the connection on a DocuDetect page, and you choose whether it may make changes and whether it may send. A read-only connection can list and read documents, preview pages and check readiness. Every change is recorded with the connection that made it, and changes are rate limited.\n\nLimits: one signer per document; signature, text, date and checkbox fields only; up to 500 fields and 20 MB per PDF; detection reads the first 25 pages. Initials, radio groups and multi-party signing are not supported in this connector; it will tell you when a PDF needs them.\n\nData: documents you upload are kept in your DocuDetect account, and uploaded source PDFs and copies are stored permanently. Do not put government ID numbers, bank or card numbers or health information into documents you prepare here. Details are in the privacy policy.\n\nYou need a DocuDetect account to sign in. Create one at docudetect.com.",
+        "longDescription": "DocuDetect prepares, sends and tracks PDFs for signature in your DocuDetect account from a conversation. It does the repetitive setup work and sends only when you ask it to.\n\nWhat you can ask for:\n- Bring in a PDF as a new draft: attach it in the chat, or use a one-time upload link.\n- Detect form fields, preview any page with the fields drawn on it, and place signature, text, date and checkbox fields once you agree with them.\n- Check a template for missed, duplicated or misplaced fields and fix them with you.\n- Fill in values you provide, such as your name, license number or a property address, onto fields that already exist. Positions you adjusted by hand do not move. Signature fields are never filled.\n- Copy a master form into a new folder for each client or property.\n- Turn a long form into short guided questions for the signer. You review and approve them before anyone sees them.\n- Set the single signer of a draft from a name and email address you give, check what still blocks it, then send it when you say so.\n- See whether the signer has opened or signed, send a reminder or a fresh link, cancel or reopen a request, and get a download link to the completed PDF or have a signed copy emailed.\n- Help you fill in a document someone else sent you to sign. Your answers are saved for you to review; you open the signing page and sign yourself.\n- List, search and organise your documents and folders, and get a daily summary of what is still unsigned.\n\nWhat it will not do: sign for anyone, delete anything, open web links on its own (it only downloads a PDF you attach), or send email you did not ask for. Email goes only to the signer you named, or to an address you give for a signed copy.\n\nPermissions: you approve the connection on a DocuDetect page, and you choose whether it may make changes and whether it may send. A read-only connection can list and read documents, preview pages and check readiness. Every change is recorded with the connection that made it, and changes are rate limited.\n\nAI processing: detecting fields and building signer questions send the pages concerned (the page image, its text and the positions of its fields) to Google's Gemini API, as the privacy policy describes. Your signer's name and email, and other pages, are not sent.\n\nLimits: one signer per document; signature, text, date and checkbox fields only; up to 500 fields and 20 MB per PDF; detection reads the first 25 pages. Initials, radio groups and multi-party signing are not supported in this connector; it will tell you when a PDF needs them.\n\nData: documents you upload are kept in your DocuDetect account. Uploaded source PDFs and copies are kept in storage at least as long as your account exists and cannot be deleted through this connector. Do not put government ID numbers, bank or card numbers, passwords or health information into documents you prepare here. Details are in the privacy policy and terms.\n\nYou need a DocuDetect account to sign in. Create one at docudetect.com. Intended for users in the United States.",
         "developerName": "Media Save LLC",
         "category": "Productivity",
         "capabilities": [
-          "Upload a PDF as a draft through a one-time link",
+          "Upload a PDF as a draft, from the chat or a one-time link",
           "Detect and preview fields on a document",
           "Place signature, text, date and checkbox fields",
           "Fill in known values without moving fields",
           "Copy master forms for each client or property",
           "Check templates for missed or misplaced fields",
+          "Turn long forms into guided questions for the signer",
           "Send for signature, track, remind and cancel",
+          "Get the completed PDF or email a signed copy",
+          "Help fill in documents sent to you, for you to review and sign",
           "Organise documents into folders"
         ],
         "websiteURL": "https://docudetect.com",
@@ -53,57 +56,51 @@
         "test_cases": {
           "positive": [
             {
-              "description": "List folders",
+              "description": "List folders and drafts",
               "prompt": "Show my DocuDetect folders and how many drafts are in each.",
               "tools_triggered": "whoami, list_folders",
-              "expected_behavior": "Two folders, Templates (3 drafts) and 100 Example Street, with counts. The reply says the connection can read, and whether it can write."
+              "expected_behavior": "Two folders: Templates with 3 drafts and 100 Example Street with 1 draft. The reply says whether the connection can make changes and send. Nothing is changed."
             },
             {
               "description": "List a document's fields",
-              "prompt": "In the 100 Example Street folder, show the Sample Listing Agreement's fields as a list: page, type and label.",
+              "prompt": "In the 100 Example Street folder, show the fields of \"Listing agreement - 100 Example Street\" as a list: page, type and label.",
               "tools_triggered": "list_documents, get_document",
-              "expected_behavior": "A list of the saved fields (text lines, three checkboxes on page 2, signature and date pairs on page 3), with the document revision."
+              "expected_behavior": "A list of the saved fields with page, type and label (text lines, checkboxes, signature and date fields) and the document revision. Nothing is changed."
             },
             {
               "description": "Copy a form and fill one value",
-              "prompt": "Copy the Sample Showing Instructions from Templates into 100 Example Street and set the \"Contact name\" to Alex Agent.",
-              "tools_triggered": "list_documents, duplicate_document, get_document, set_field_values",
-              "expected_behavior": "A new draft in the property folder. The \"Contact name\" field holds Alex Agent. No other field has a value. The source in Templates is unchanged."
-            },
-            {
-              "description": "Set the signer and check readiness",
-              "prompt": "Set the signer of the Sample Listing Agreement copy in 100 Example Street to Sam Seller, the signer email address given in the review notes, and tell me if it is ready to send.",
-              "tools_triggered": "get_document, set_recipient, check_ready",
-              "expected_behavior": "Signer saved. check_ready lists blockers or reports ready, and gives an app link. The reply says nothing was sent."
-            },
-            {
-              "description": "Send and track",
-              "prompt": "Send the Sample Listing Agreement copy in 100 Example Street to Sam Seller at the signer email address given in the review notes, then tell me if Sam has opened it.",
-              "tools_triggered": "list_documents, get_document, set_recipient, check_ready, send_document, get_document",
-              "expected_behavior": "The assistant shows the title, signer and field count, sends, reports delivery email_sent, and reports the signing state (waiting until the signer opens the link)."
+              "prompt": "Copy \"Sample Showing Instructions\" from Templates into the 100 Example Street folder, call the copy \"Showing instructions for review\", and set its Contact name field to Alex Agent.",
+              "tools_triggered": "list_folders, list_documents, duplicate_document, get_document, set_field_values",
+              "expected_behavior": "A new draft named \"Showing instructions for review\" appears in 100 Example Street. Its Contact name field holds Alex Agent and no other field has a value. The original in Templates is unchanged."
             },
             {
               "description": "Detect fields without saving",
-              "prompt": "Start field detection on the Sample Seller Disclosure draft and tell me how many fields it suggests. Don't save them.",
-              "tools_triggered": "detect_fields, get_detection",
-              "expected_behavior": "A job starts, polling ends with status done and a count of suggested fields. The reply says the suggestions were not saved. The document's revision is unchanged."
+              "prompt": "Start field detection on the draft \"Seller disclosure (no fields)\" and tell me how many fields it suggests. Do not save them.",
+              "tools_triggered": "list_documents, detect_fields, get_detection",
+              "expected_behavior": "A detection job starts and finishes with a count of suggested fields. The reply says the suggestions were not saved. The document still has no fields and its revision is unchanged."
+            },
+            {
+              "description": "Copy, set the signer, send and track",
+              "prompt": "Copy \"Sample Listing Agreement\" from Templates, call the copy \"Listing agreement for review\", set its signer to Sam Seller at the signer email address given in the review notes, and send it for signature. Then tell me whether Sam has opened it.",
+              "tools_triggered": "list_documents, duplicate_document, set_recipient, check_ready, send_document, get_document",
+              "expected_behavior": "The assistant shows the title, signer and field count and asks for confirmation. After confirmation it sends the copy, reports that the signing email was delivered, and reports the signing state as waiting until Sam opens the link. The original in Templates is unchanged."
             }
           ],
           "negative": [
             {
-              "description": "Sending to someone not named",
-              "prompt": "Send the Sample Listing Agreement to the buyer for signature now.",
-              "expected_behavior": "No send_document call. No buyer name or email was given, so the assistant asks for the signer's name and email and does not guess or take one from the document. No email is sent."
+              "description": "Send without a named signer",
+              "prompt": "Send \"Sample Listing Agreement\" to the buyer for signature now.",
+              "expected_behavior": "No document is sent. No signer name or email was given, so the assistant asks for them and does not guess one or take one from the document."
             },
             {
               "description": "Unsupported deletion",
-              "prompt": "Delete the draft called Sample Showing Instructions from my account.",
-              "expected_behavior": "No delete tool exists. The assistant says it cannot delete and that documents are deleted in the app. The draft is still there afterwards."
+              "prompt": "Delete the draft called \"Sample Showing Instructions\" from my account.",
+              "expected_behavior": "No delete tool exists. The assistant says it cannot delete documents and that they are deleted in the DocuDetect app. The draft is still there afterwards."
             },
             {
               "description": "Unsupported signing",
               "prompt": "Sign the listing agreement for me with my signature.",
-              "expected_behavior": "The assistant cannot sign. If it tries `set_field_values` on a signature field the connector refuses it. The signature field stays empty."
+              "expected_behavior": "The assistant says it cannot sign. If it tries to fill a signature field the connector refuses. The signature field stays empty."
             }
           ]
         },
@@ -111,8 +108,10 @@
         "commerce_description": "This plugin does not sell products or process payments."
       },
       "publication": {
-        "countries": ["US"],
-        "release_notes": "Upload PDFs as drafts (in-chat upload box), detect, check and preview fields, place and fill fields, copy documents, set the signer, send for signature on request, track, remind, renew, cancel and reopen, email signed copies, and organise folders. Nothing is signed or deleted by the connector."
+        "countries": [
+          "US"
+        ],
+        "release_notes": "First release. Upload PDFs as drafts (attached in chat or through a one-time link), detect, check and preview fields, place and fill fields, copy documents, build guided questions for the signer, set the signer and send for signature on request, track, remind, renew, cancel and reopen, get or email completed copies, help fill in documents sent to you, and organise folders. Nothing is signed or deleted by the connector."
       }
     }
   }
