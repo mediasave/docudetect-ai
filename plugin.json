@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "docudetect",
-  "version": "3.10.0",
+  "version": "1.0.0",
   "description": "Prepare, send and track PDFs for signature in your DocuDetect account from a conversation: upload a PDF, place and check signature, text, date and checkbox fields, audit templates for missed fields, fill in known values, copy documents for each new client or property, send to the signer when you say so, see who opened or signed, remind or cancel, and organise folders. It never signs or deletes.",
   "author": {
     "name": "Media Save LLC",
@@ -111,7 +111,7 @@
         "countries": [
           "US"
         ],
-        "release_notes": "First release. Upload PDFs as drafts (attached in chat or through a one-time link), detect, check and preview fields, place and fill fields, copy documents, build guided questions for the signer, set the signer and send for signature on request, track, remind, renew, cancel and reopen, get or email completed copies, help fill in documents sent to you, and organise folders. Nothing is signed or deleted by the connector."
+        "release_notes": "Initial release."
       }
     }
   }
