@@ -58,31 +58,31 @@
             {
               "description": "List folders and drafts",
               "prompt": "Show my DocuDetect folders and how many drafts are in each.",
-              "tools_triggered": "whoami, list_folders",
+              "tools_triggered": "read_account (whoami, folders)",
               "expected_behavior": "Two folders: Templates with 3 drafts and 100 Example Street with 1 draft. The reply says whether the connection can make changes and send. Nothing is changed."
             },
             {
               "description": "List a document's fields",
               "prompt": "In the 100 Example Street folder, show the fields of \"Listing agreement - 100 Example Street\" as a list: page, type and label.",
-              "tools_triggered": "list_documents, get_document",
+              "tools_triggered": "read_documents (list, get)",
               "expected_behavior": "A list of the saved fields with page, type and label (text lines, checkboxes, signature and date fields) and the document revision. Nothing is changed."
             },
             {
               "description": "Copy a form and fill one value",
               "prompt": "Copy \"Sample Showing Instructions\" from Templates into the 100 Example Street folder, call the copy \"Showing instructions for review\", and set its Contact name field to Alex Agent.",
-              "tools_triggered": "list_folders, list_documents, duplicate_document, get_document, set_field_values",
+              "tools_triggered": "read_account (folders), read_documents (list, get), prepare (duplicate), edit_documents (set_values)",
               "expected_behavior": "A new draft named \"Showing instructions for review\" appears in 100 Example Street. Its Contact name field holds Alex Agent and no other field has a value. The original in Templates is unchanged."
             },
             {
               "description": "Detect fields without saving",
               "prompt": "Start field detection on the draft \"Seller disclosure (no fields)\" and tell me how many fields it suggests. Do not save them.",
-              "tools_triggered": "list_documents, detect_fields, get_detection",
+              "tools_triggered": "read_documents (list, detection), prepare (detect)",
               "expected_behavior": "A detection job starts and finishes with a count of suggested fields. The reply says the suggestions were not saved. The document still has no fields and its revision is unchanged."
             },
             {
               "description": "Copy, set the signer, send and track",
               "prompt": "Copy \"Sample Listing Agreement\" from Templates, call the copy \"Listing agreement for review\", set its signer to Sam Seller at the signer email address given in the review notes, and send it for signature. Then tell me whether Sam has opened it.",
-              "tools_triggered": "list_documents, duplicate_document, set_recipient, check_ready, send_document, get_document",
+              "tools_triggered": "read_documents (list, ready, get), prepare (duplicate), edit_documents (set_recipient), email_document (send)",
               "expected_behavior": "The assistant shows the title, signer and field count and asks for confirmation. After confirmation it sends the copy, reports that the signing email was delivered, and reports the signing state as waiting until Sam opens the link. The original in Templates is unchanged."
             }
           ],
