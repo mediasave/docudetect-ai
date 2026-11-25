@@ -1,0 +1,13 @@
+{
+  "name": "docudetect",
+  "version": "1.0.1",
+  "description": "Prepare, send and track PDFs for signature in your DocuDetect account: upload a PDF, detect and place signature, text, date and checkbox fields, fill in known values, copy forms for each client or property, send when you say so, see who opened or signed, remind or cancel. It never signs or deletes.",
+  "author": { "name": "Media Save LLC", "email": "contact@docudetect.com" },
+  "homepage": "https://docudetect.com",
+  "repository": "https://github.com/mediasave/docudetect-ai",
+  "license": "MIT",
+  "keywords": ["e-signature", "pdf", "documents", "mcp", "real-estate", "forms"],
+  "logo": "assets/logo.svg",
+  "skills": "./skills/",
+  "mcpServers": "./.cursor-plugin/mcp.json"
+}

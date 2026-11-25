@@ -3,7 +3,7 @@
 The skill needs the DocuDetect MCP server connected in the agent. It is a remote Streamable HTTP server:
 
 - URL: `https://docudetect.com/mcp`
-- Sign-in: OAuth 2.1 in the browser (dynamic client registration, PKCE). No API key. The user signs in to their DocuDetect account (or creates one at https://docudetect.com) and approves access. The documents app at docudetect.com is called Way of That; it is the same account.
+- Sign-in: OAuth 2.1 in the browser (dynamic client registration, PKCE). No API key. The user signs in to their DocuDetect account (or creates one at https://docudetect.com) and approves access.
 - Scopes: `documents:read`, `documents:write` and `documents:send`. On the approval page the user can untick "Upload PDFs as drafts ..." (read-only connection) or "Send documents for signature ..." (the user sends from the app). A connection made before sending existed has no `documents:send`: to send through it, the user disconnects and connects again.
 
 Give the user the steps for the agent they are using, then ask them to come back once it is connected (some agents need a restart or a new session before new tools appear). Never ask the user to paste tokens or passwords into the chat.
@@ -50,6 +50,14 @@ url = "https://docudetect.com/mcp"
 
 ## Gemini CLI
 
+The extension adds the server and this skill together:
+
+```bash
+gemini extensions install https://github.com/mediasave/docudetect-ai
+```
+
+Or the server alone:
+
 ```bash
 gemini mcp add --transport http docudetect https://docudetect.com/mcp
 ```
@@ -62,7 +70,7 @@ Then `/mcp auth docudetect` in a session. Or in `~/.gemini/settings.json`:
 
 ## Cursor (desktop)
 
-`~/.cursor/mcp.json` (all projects) or `.cursor/mcp.json` (one project):
+One click: open `cursor://anysphere.cursor-deeplink/mcp/install?name=docudetect&config=eyJ1cmwiOiJodHRwczovL2RvY3VkZXRlY3QuY29tL21jcCJ9` and confirm. Or add it to `~/.cursor/mcp.json` (all projects) or `.cursor/mcp.json` (one project):
 
 ```json
 { "mcpServers": { "docudetect": { "url": "https://docudetect.com/mcp" } } }
@@ -99,7 +107,7 @@ Any MCP client that supports remote Streamable HTTP servers with OAuth works if 
 
 ## When sign-in fails
 
-- "Invalid redirect URI" or similar: the client uses a hosted or custom-scheme callback other than the ones DocuDetect accepts (Claude, ChatGPT and local `http://localhost` or `http://127.0.0.1` callbacks). Use one of the agents above.
+- "Invalid redirect URI" or similar: the client uses a hosted or custom-scheme callback DocuDetect does not accept. Accepted: Claude, ChatGPT, Perplexity, Grok, Microsoft 365 Copilot, Cursor, and local `http://localhost` or `http://127.0.0.1` callbacks. Use one of the agents above.
 - Tools still missing after sign-in: restart the agent or start a new session.
 - Access tokens last an hour and are refreshed while the connection stays in use. If calls start failing with an authorization error, sign in again from the agent's MCP settings.
 - Still stuck: see https://docudetect.com/ai/troubleshooting or email contact@docudetect.com.

@@ -1,0 +1,8 @@
+{
+  "name": "docudetect",
+  "version": "1.0.1",
+  "description": "Prepare, send and track PDFs for signature in your DocuDetect account. Connects the DocuDetect MCP server (OAuth sign-in) and adds the docudetect-documents skill. It never signs or deletes.",
+  "mcpServers": {
+    "docudetect": { "httpUrl": "https://docudetect.com/mcp" }
+  }
+}
