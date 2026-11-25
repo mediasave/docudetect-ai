@@ -1,0 +1,14 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "com.docudetect/documents",
+  "title": "DocuDetect",
+  "description": "Prepare PDFs for e-signature: detect fields, fill values, send for signing, track status.",
+  "version": "1.0.0",
+  "websiteUrl": "https://docudetect.com/ai",
+  "icons": [
+    { "src": "https://docudetect.com/brand/docudetect-icon-512.png", "mimeType": "image/png", "sizes": ["512x512"] }
+  ],
+  "remotes": [
+    { "type": "streamable-http", "url": "https://docudetect.com/mcp" }
+  ]
+}

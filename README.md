@@ -74,6 +74,8 @@ This repository holds instructions and configuration only. It stores nothing and
 - Contact: [contact@docudetect.com](mailto:contact@docudetect.com) or [docudetect.com/contact](https://docudetect.com/contact)
 - Problems with this package: open an issue in this repository.
 
+Listed on [Glama](https://glama.ai/mcp/connectors/com.docudetect/documents).
+
 ## Layout
 
 | Path | Used by |
